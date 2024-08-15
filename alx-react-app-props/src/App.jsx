@@ -10,8 +10,7 @@ import MainContent from './components/MainContent';
 import Footer from './components/Footer';
 import UserProfile from './components/UserProfile';
 import ProfilePage from './components/ProfilePage';
-import UserContext from './UserContext';
-
+import UserContext from './components/UserContext';
 
 
 
@@ -23,10 +22,10 @@ function App() {
 
   return (
     <>
-  <UserContext.Provider value={userData}>
+
+<UserContext.Provider value={userData}>
       <ProfilePage />
     </UserContext.Provider>
-
 
        <div>
             <WelcomeMessage />
