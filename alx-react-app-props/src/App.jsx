@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -73,3 +74,18 @@ export default App
 
 
 
+=======
+import ProfilePage from './components/ProfilePage';
+import UserContext from './components/UserContext';
+
+function App() {
+  const userData = { name: "Glen Joshua", email: "glen.joshua@gmail.com" };
+
+  return(
+    <UserContext.Provider value={userData}>
+    <ProfilePage />
+    </UserContext.Provider>
+  );
+}
+export default App;
+>>>>>>> 9d606d3 (second commit)

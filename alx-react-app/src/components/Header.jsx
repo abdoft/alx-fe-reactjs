@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // src/components/Header.jsx
->>>>>>> 9d606d3 (second commit)
 import React from 'react';
 
 function Header() {
