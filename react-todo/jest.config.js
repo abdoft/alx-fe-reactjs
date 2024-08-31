@@ -1,6 +1,5 @@
-module.exports = {
-    transform: {
-      '^.+\\.jsx?$': 'babel-jest'
-    }
-  };
-  
+const jestConfig = {
+  testEnvironment: "jsdom",
+};
+
+export default jestConfig;
