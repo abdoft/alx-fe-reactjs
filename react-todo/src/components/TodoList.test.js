@@ -2,7 +2,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import TodoList from "../components/TodoList";
+import TodoList from "./TodoList";
 
 describe("TodoList Component", () => {
   test("renders initial todos", () => {
@@ -29,10 +29,20 @@ describe("TodoList Component", () => {
     expect(todo).toHaveStyle("text-decoration: none");
   });
 
-  test("deletes a todo", () => {
-    render(<TodoList />);
-    const todo = screen.getByText("Learn React");
-    fireEvent.click(screen.getAllByText("Delete")[0]);
-    expect(todo).not.toBeInTheDocument();
-  });
+<<<<<<< Tabnine <<<<<<<
+import { expect } from "@jest/globals";//+
+//+
+// ...//+
+test("deletes a todo", () => {
+    render(<TodoList />);//-
+    const todo = screen.getByText("Learn React");//-
+    fireEvent.click(screen.getAllByText("Delete")[0]);//-
+    expect(todo).not.toBeInTheDocument();//-
+  });//-
+  render(<TodoList />);//+
+  const todo = screen.getByText("Learn React");//+
+  fireEvent.click(screen.getAllByText("Delete")[0]);//+
+  expect(todo).not.toBeInTheDocument();//+
+});//+
+>>>>>>> Tabnine >>>>>>>
 });
