@@ -1,48 +1,79 @@
-// src/__tests__/TodoList.test.js
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import TodoList from "./TodoList";
+import React, { useState } from 'react';
 
-describe("TodoList Component", () => {
-  test("renders initial todos", () => {
-    render(<TodoList />);
-    expect(screen.getByText("Learn React")).toBeInTheDocument();
-    expect(screen.getByText("Build a Todo List")).toBeInTheDocument();
-  });
+// TodoList Component
+const TodoList = () => {
+  // Initial state with some demo todos
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Learn React', completed: false },
+    { id: 2, text: 'Build a Todo List', completed: false },
+  ]);
 
-  test("adds a new todo", () => {
-    render(<TodoList />);
-    fireEvent.change(screen.getByRole("textbox"), {
-      target: { value: "New Todo" },
-    });
-    fireEvent.click(screen.getByText("Add Todo"));
-    expect(screen.getByText("New Todo")).toBeInTheDocument();
-  });
+  // Function to add a new todo
+  const addTodo = (text) => {
+    setTodos([...todos, { id: Date.now(), text, completed: false }]);
+  };
 
-  test("toggles todo completion", () => {
-    render(<TodoList />);
-    const todo = screen.getByText("Learn React");
-    fireEvent.click(todo);
-    expect(todo).toHaveStyle("text-decoration: line-through");
-    fireEvent.click(todo);
-    expect(todo).toHaveStyle("text-decoration: none");
-  });
+  // Function to toggle the completion status of a todo
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
 
-<<<<<<< Tabnine <<<<<<<
-import { expect } from "@jest/globals";//+
-//+
-// ...//+
-test("deletes a todo", () => {
-    render(<TodoList />);//-
-    const todo = screen.getByText("Learn React");//-
-    fireEvent.click(screen.getAllByText("Delete")[0]);//-
-    expect(todo).not.toBeInTheDocument();//-
-  });//-
-  render(<TodoList />);//+
-  const todo = screen.getByText("Learn React");//+
-  fireEvent.click(screen.getAllByText("Delete")[0]);//+
-  expect(todo).not.toBeInTheDocument();//+
-});//+
->>>>>>> Tabnine >>>>>>>
-});
+  // Function to delete a todo
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  return (
+    <div>
+      <h2>Todo List</h2>
+      <ul>
+        {todos.map(todo => (
+          <li
+            key={todo.id}
+            style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+            onClick={() => toggleTodo(todo.id)}
+          >
+            {todo.text}
+            <button onClick={(e) => {
+              e.stopPropagation(); // Prevent triggering the toggle event
+              deleteTodo(todo.id);
+            }}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+      <AddTodoForm addTodo={addTodo} />
+    </div>
+  );
+};
+
+// AddTodoForm Component
+const AddTodoForm = ({ addTodo }) => {
+  const [input, setInput] = useState('');
+
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input) {
+      addTodo(input);
+      setInput(''); // Clear the input field after adding
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Enter new todo"
+      />
+      <button type="submit">Add Todo</button>
+    </form>
+  );
+};
+
+export default TodoList;

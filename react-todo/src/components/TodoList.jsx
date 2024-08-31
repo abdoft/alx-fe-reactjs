@@ -1,25 +1,26 @@
-// src/components/TodoList.jsx
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Import React and useState
 
+// TodoList Component
 const TodoList = () => {
+  // State to manage the list of todos
   const [todos, setTodos] = useState([
     { id: 1, text: 'Learn React', completed: false },
     { id: 2, text: 'Build a Todo List', completed: false },
   ]);
 
+  // Function to add a new todo
   const addTodo = (text) => {
-    const newTodo = { id: Date.now(), text, completed: false };
-    setTodos([...todos, newTodo]);
+    setTodos([...todos, { id: Date.now(), text, completed: false }]);
   };
 
+  // Function to toggle the completion status of a todo
   const toggleTodo = (id) => {
-    setTodos(
-      todos.map(todo =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
   };
 
+  // Function to delete a todo
   const deleteTodo = (id) => {
     setTodos(todos.filter(todo => todo.id !== id));
   };
@@ -27,44 +28,52 @@ const TodoList = () => {
   return (
     <div>
       <h2>Todo List</h2>
-      <AddTodoForm addTodo={addTodo} />
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>
-            <span
-              onClick={() => toggleTodo(todo.id)}
-              style={{ textDecoration: todo.completed ? 'line-through' : 'none', cursor: 'pointer' }}
-            >
-              {todo.text}
-            </span>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          <li
+            key={todo.id} // Key attribute for unique list items
+            style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+            onClick={() => toggleTodo(todo.id)}
+          >
+            {todo.text}
+            <button onClick={(e) => {
+              e.stopPropagation(); // Prevent triggering the toggle event
+              deleteTodo(todo.id);
+            }}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
+      <AddTodoForm addTodo={addTodo} />
     </div>
   );
 };
 
+// AddTodoForm Component
 const AddTodoForm = ({ addTodo }) => {
-  const [value, setValue] = useState('');
+  const [input, setInput] = useState(''); // State to manage input field value
 
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!value.trim()) return;
-    addTodo(value);
-    setValue('');
+    if (input) {
+      addTodo(input);
+      setInput(''); // Clear the input field after adding
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Enter new todo"
       />
       <button type="submit">Add Todo</button>
     </form>
   );
 };
 
-export default TodoList;
+export default TodoList; // Exporting the component
