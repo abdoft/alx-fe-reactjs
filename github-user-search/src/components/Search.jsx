@@ -24,7 +24,7 @@ function Search() {
         setUsers(fetchedUsers);
       }
     } catch (err) {
-      setError('Looks like we cant find the user.');
+      setError("Looks like we cant find the user.");
     } finally {
       setLoading(false);
     }
