@@ -24,8 +24,31 @@ const Search = () => {
     };
 
     return (
-        // ... (same as before)
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Enter GitHub username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <button type="submit">Search</button>
+            </form>
+            {loading && <p>Loading...</p>}
+            {error && <p>{error}</p>} {/* Display error message */}
+            {user && (
+                <div>
+                    <h2>{user.name || user.login}</h2>
+                    <img src={user.avatar_url} alt={user.login} width="100" />
+                    <p>Profile: <a href={user.html_url} target="_blank" rel="noopener noreferrer">{user.html_url}</a></p>
+                </div>
+            )}
+        </div>
     );
 };
 
 export default Search;
+
+
+
+
